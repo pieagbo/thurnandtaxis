@@ -25,7 +25,7 @@ class Interface(Frame):
         self.settingsFrame = LabelFrame(self, text="Parametres de jeu", padx=15, pady=15)
     
         self.playerName = StringVar() 
-        self.playerName.set("Sangivaru")
+        self.playerName.set("Rangivaru")
         self.playerNameLabel = Label(self.settingsFrame, text="Entrez un nom : ")   
         self.playerNameInput = Entry(self.settingsFrame, textvariable=self.playerName, width=40)
         
@@ -49,7 +49,7 @@ class Interface(Frame):
         self.firstPlayerNo = Radiobutton(self.settingsFrame, text="Non", variable=self.firstPlayer, value='Non')
         
         self.play = Button(self, text="Jouer", width=10, command=self.play)
-        self.quit = Button(self, text="Quitter", width=10, command=fenetre.destroy)
+        self.quit = Button(self, text="Quitter", width=10, command=fenetre.quit)
 
         self.message.pack()
         self.settingsFrame.pack(fill="y", expand="no")
