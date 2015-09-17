@@ -103,24 +103,24 @@ class Interface(Frame):
     
     def playGame(self):
         if self.playerColor == Color.BLUE:
-            self.IAs.add(IA("Bob", Color.GREEN, self.IALevelValue.get()))
-            self.IAs.add(IA("Tim", Color.RED, self.IALevelValue.get()))
-            self.IAs.add(IA("Rachid", Color.YELLOW, self.IALevelValue.get()))
+            self.IAone = IA("Bob", Color.GREEN, self.IALevelValue.get(), 1)
+            self.IAthree = IA("Tim", Color.RED, self.IALevelValue.get(), 3)
+            self.IAfour = IA("Rachid", Color.YELLOW, self.IALevelValue.get(), 4)
         elif self.playerColor == Color.RED:
-            self.IAs.add(IA("Bob", Color.GREEN, self.IALevelValue.get()))
-            self.IAs.add(IA("Tim", Color.BLUE, self.IALevelValue.get()))
-            self.IAs.add(IA("Rachid", Color.YELLOW, self.IALevelValue.get()))
+            self.IAone = IA("Bob", Color.GREEN, self.IALevelValue.get(), 1)
+            self.IAthree = IA("Tim", Color.BLUE, self.IALevelValue.get(), 3)
+            self.IAfour = IA("Rachid", Color.YELLOW, self.IALevelValue.get(), 4)
         elif self.playerColor == Color.YELLOW:
-            self.IAs.add(IA("Bob", Color.GREEN, self.IALevelValue.get()))
-            self.IAs.add(IA("Tim", Color.RED, self.IALevelValue.get()))
-            self.IAs.add(IA("Rachid", Color.BLUE, self.IALevelValue.get()))
+            self.IAone = IA("Bob", Color.GREEN, self.IALevelValue.get(), 1)
+            self.IAthree = IA("Tim", Color.RED, self.IALevelValue.get(), 3)
+            self.IAfour = IA("Rachid", Color.BLUE, self.IALevelValue.get(), 4)
         elif self.playerColor == Color.GREEN:
-            self.IAs.add(IA("Bob", Color.BLUE, self.IALevelValue.get()))
-            self.IAs.add(IA("Tim", Color.RED, self.IALevelValue.get()))
-            self.IAs.add(IA("Rachid", Color.YELLOW, self.IALevelValue.get()))
+            self.IAone = IA("Bob", Color.BLUE, self.IALevelValue.get(), 1)
+            self.IAthree = IA("Tim", Color.RED, self.IALevelValue.get(), 3)
+            self.IAfour = IA("Rachid", Color.YELLOW, self.IALevelValue.get(), 4)
             
         self.wantQuit = 0
-        self.human = Human(self.playerName.get(), self.playerColor)
+        self.human = Human(self.playerName.get(), self.playerColor, 2)
         self.fenetre.destroy()
         
         

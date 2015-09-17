@@ -15,18 +15,20 @@ class CardinalPoint(Enum):
 
 
 class Color(Enum):
-    RED = 1
-    GREEN = 2
-    BLUE = 3
-    YELLOW = 4
+    RED = "red"
+    GREEN = "green"
+    BLUE = "blue"
+    YELLOW = "yellow"
     
     
 class Player:
-    def __init__(self, name, color): 
+    def __init__(self, name, color, order): 
         self.name = name
         self.nbPoint = 0
         self.color = color
+        self.order = order
         self.carriage = None 
+        self.houses = list()
         self.hand = list()       
         self.road = list()
         self.cities = set()
@@ -34,13 +36,13 @@ class Player:
         
 
 class Human(Player):
-    def __init__(self, name, color): 
-        Player.__init__(self, name, color)
+    def __init__(self, name, color, order): 
+        Player.__init__(self, name, color, order)
 
 
 class IA(Player):
-    def __init__(self, name, color, level):
-        Player.__init__(self, name, color)
+    def __init__(self, name, color, level, order):
+        Player.__init__(self, name, color, order)
         self.level = level
         
 
@@ -75,7 +77,6 @@ class Card:
     def __init__(self, name, city): 
         self.name = name
         self.city = city
-        
 
 class PlayerHand(Card):
     def __init__(self, name, city): 
