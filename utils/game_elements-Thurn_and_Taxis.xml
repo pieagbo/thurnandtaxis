@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+elements of the game Thurn and Taxis
+-->
+
+<game_elements>
+
+	<!-- directory of images -->
+	<dir_image>Yucata_fichiers</dir_image>
+
+	<!-- Remark: all coordinates are centered and given in millimeters corresponding to the real game board -->
+
+	<!-- game -->
+	<game>
+		<!-- name of the game -->
+		<name>Thurn and Taxis</name>
+		<!-- dimensions: game board, cities & firm/carriage cards (portrait), (square) bonus tiles -->
+		<game_board_width>600</game_board_width> <!--@unused-->
+		<game_board_height>420</game_board_height> <!--@unused-->
+		<card_width>44</card_width> <!--@unused-->
+		<card_height>68</card_height> <!--@unused-->
+		<bonus_size>21</bonus_size> <!--@unused-->
+		<x_coordinate_supply_city_cards>39</x_coordinate_supply_city_cards> <!--@unused-->
+		<y_coordinate_supply_city_cards>94</y_coordinate_supply_city_cards> <!--@unused-->
+		<!-- images: board image, back card, officials, carriage, victory -->
+		<game_board_image>thurnplan.jpg</game_board_image>
+		<back_card_image>deck.jpg</back_card_image>
+		<unused_person_image>amtspersonen.bmp</unused_person_image>
+		<carriage_image>kutsche.bmp</carriage_image>
+		<victory_image>victoryChip.png</victory_image> <!--@unused-->
+		<!-- parameters -->
+		<nb_copies_city_cards>3</nb_copies_city_cards>
+		<nb_min_city_cards_close_route>3</nb_min_city_cards_close_route>
+		<nb_max_city_cards_route_closed>3</nb_max_city_cards_route_closed>
+		<nb_city_cards_Cartwright_advantage>2</nb_city_cards_Cartwright_advantage>
+		<initial_nb_houses>20</initial_nb_houses>
+	</game>
+
+	<!-- houses e.g. post offices (4 specific colors) -->
+	<houses>
+		<black_house_image>hutblack.png</black_house_image>
+		<red_house_image>hutred.png</red_house_image>
+		<green_house_image>hutgreen.png</green_house_image>
+		<blue_house_image>hutblue.png</blue_house_image>
+	</houses>
+
+	<!-- officials (4 officials) -->
+	<officials>
+		<official>
+			<name>Postal carrier</name>
+			<symbol_image>postalCarrierTile.png</symbol_image>
+			<person_image>postillion.bmp</person_image>
+			<x_coordinate>33</x_coordinate> <!--@unused-->
+			<y_coordinate>114</y_coordinate> <!--@unused-->
+		</official>
+		<official>
+			<name>Postmaster</name>
+			<symbol_image>postmasterTile.png</symbol_image>
+			<person_image>postmeister.bmp</person_image>
+			<x_coordinate>72</x_coordinate> <!--@unused-->
+			<y_coordinate>111</y_coordinate> <!--@unused-->
+		</official>
+		<official>
+			<name>Administrator</name>
+			<symbol_image>administratorTile.png</symbol_image>
+			<person_image>amtmann.bmp</person_image>
+			<x_coordinate>112</x_coordinate> <!--@unused-->
+			<y_coordinate>117</y_coordinate> <!--@unused-->
+		</official>
+		<official>
+			<name>Cartwright</name>
+			<symbol_image>cartwrightTile.png</symbol_image>
+			<person_image>wagner.bmp</person_image>
+			<x_coordinate>154</x_coordinate> <!--@unused-->
+			<y_coordinate>112</y_coordinate> <!--@unused-->
+		</official>
+	</officials>
+
+	<!-- carriages (5 cards) -->
+	<carriages>
+		<carriage>
+			<route_length>7</route_length>
+			<nb_victory_points>10</nb_victory_points>
+			<x_coordinate>544</x_coordinate> <!--@unused-->
+			<y_coordinate>39</y_coordinate> <!--@unused-->
+		</carriage>
+		<carriage>
+			<route_length>6</route_length>
+			<nb_victory_points>7</nb_victory_points>
+			<x_coordinate>474</x_coordinate> <!--@unused-->
+			<y_coordinate>39</y_coordinate> <!--@unused-->
+		</carriage>
+		<carriage>
+			<route_length>5</route_length>
+			<nb_victory_points>5</nb_victory_points>
+			<x_coordinate>404</x_coordinate> <!--@unused-->
+			<y_coordinate>39</y_coordinate> <!--@unused-->
+		</carriage>
+		<carriage>
+			<route_length>4</route_length>
+			<nb_victory_points>3</nb_victory_points>
+			<x_coordinate>374</x_coordinate> <!--@unused-->
+			<y_coordinate>39</y_coordinate> <!--@unused-->
+		</carriage>
+		<carriage>
+			<route_length>3</route_length>
+			<nb_victory_points>2</nb_victory_points>
+			<x_coordinate>304</x_coordinate> <!--@unused-->
+			<y_coordinate>39</y_coordinate> <!--@unused-->
+		</carriage>
+	</carriages>
+
+	<!-- coordinates of displayed city cards (6 cards) -->
+	<coordinates_display_city_cards>
+		<coordinate_display_city_card>
+			<x_coordinate>39</x_coordinate> <!--@unused-->
+			<y_coordinate>168</y_coordinate> <!--@unused-->
+		</coordinate_display_city_card>
+		<coordinate_display_city_card>
+			<x_coordinate>89</x_coordinate> <!--@unused-->
+			<y_coordinate>168</y_coordinate> <!--@unused-->
+		</coordinate_display_city_card>
+		<coordinate_display_city_card>
+			<x_coordinate>39</x_coordinate> <!--@unused-->
+			<y_coordinate>242</y_coordinate> <!--@unused-->
+		</coordinate_display_city_card>
+		<coordinate_display_city_card>
+			<x_coordinate>89</x_coordinate> <!--@unused-->
+			<y_coordinate>242</y_coordinate> <!--@unused-->
+		</coordinate_display_city_card>
+		<coordinate_display_city_card>
+			<x_coordinate>39</x_coordinate> <!--@unused-->
+			<y_coordinate>316</y_coordinate> <!--@unused-->
+		</coordinate_display_city_card>
+		<coordinate_display_city_card>
+			<x_coordinate>89</x_coordinate> <!--@unused-->
+			<y_coordinate>316</y_coordinate> <!--@unused-->
+		</coordinate_display_city_card>
+	</coordinates_display_city_cards>
+
+	<!-- provinces (9 provinces, 22 cities) -->
+	<provinces>
+		<province>
+			<name>Baden</name>
+			<color>violet red</color>
+			<city>
+				<name>Carlsruhe</name>
+				<image>card4.png</image> <!--@unused-->
+				<x_coordinate>167</x_coordinate>
+				<y_coordinate>213</y_coordinate>
+			</city>
+			<city>
+				<name>Freiburg</name>
+				<image>card5.png</image> <!--@unused-->
+				<x_coordinate>152</x_coordinate>
+				<y_coordinate>311</y_coordinate>
+			</city>
+			<city>
+				<name>Mannheim</name>
+				<image>card11.png</image> <!--@unused-->
+				<x_coordinate>212</x_coordinate>
+				<y_coordinate>125</y_coordinate>
+			</city>
+		</province>
+		<province>
+			<name>Baiern</name>
+			<color>AntiqueWhite3</color>
+			<city>
+				<name>Augsburg</name>
+				<image>card1.png</image> <!--@unused-->
+				<x_coordinate>341</x_coordinate>
+				<y_coordinate>288</y_coordinate>
+			</city>
+			<city>
+				<name>Ingolstadt</name>
+				<image>card6.png</image> <!--@unused-->
+				<x_coordinate>373</x_coordinate>
+				<y_coordinate>234</y_coordinate>
+			</city>
+			<city>
+				<name>Kempten</name>
+				<image>card8.png</image> <!--@unused-->
+				<x_coordinate>292</x_coordinate>
+				<y_coordinate>356</y_coordinate>
+			</city>
+			<city>
+				<name>München</name>
+				<image>card12.png</image> <!--@unused-->
+				<x_coordinate>415</x_coordinate>
+				<y_coordinate>320</y_coordinate>
+			</city>
+			<city>
+				<name>Nürnberg</name>
+				<image>card13.png</image> <!--@unused-->
+				<x_coordinate>381</x_coordinate>
+				<y_coordinate>150</y_coordinate>
+			</city>
+			<city>
+				<name>Passau</name>
+				<image>card14.png</image> <!--@unused-->
+				<x_coordinate>493</x_coordinate>
+				<y_coordinate>287</y_coordinate>
+			</city>
+			<city>
+				<name>Regensburg</name>
+				<image>card16.png</image> <!--@unused-->
+				<x_coordinate>444</x_coordinate>
+				<y_coordinate>198</y_coordinate>
+			</city>
+			<city>
+				<name>Würzburg</name>
+				<image>card21.png</image> <!--@unused-->
+				<x_coordinate>308</x_coordinate>
+				<y_coordinate>105</y_coordinate>
+			</city>
+		</province>
+		<province>
+			<name>Böhmen</name>
+			<color>orange</color>
+			<city>
+				<name>Budweis</name>
+				<image>card3.png</image> <!--@unused-->
+				<x_coordinate>561</x_coordinate>
+				<y_coordinate>190</y_coordinate>
+			</city>
+			<city>
+				<name>Pilsen</name>
+				<image>card15.png</image> <!--@unused-->
+				<x_coordinate>472</x_coordinate>
+				<y_coordinate>113</y_coordinate>
+			</city>
+		</province>
+		<province>
+			<name>Hohenzollern</name>
+			<color>forest green</color>
+			<city>
+				<name>Sigmaringen</name>
+				<image>card18.png</image> <!--@unused-->
+				<x_coordinate>213</x_coordinate>
+				<y_coordinate>278</y_coordinate>
+			</city>
+		</province>
+		<province>
+			<name>Polen</name>
+			<color>dim gray</color>
+			<city>
+				<name>Lodz</name>
+				<image>card10.jpg</image> <!--@unused-->
+				<x_coordinate>557</x_coordinate>
+				<y_coordinate>105</y_coordinate>
+			</city>
+		</province>
+		<province>
+			<name>Salzburg</name>
+			<color>firebrick</color>
+			<city>
+				<name>Linz</name>
+				<image>card9.png</image> <!--@unused-->
+				<x_coordinate>565</x_coordinate>
+				<y_coordinate>291</y_coordinate>
+			</city>
+			<city>
+				<name>Salzburg</name>
+				<image>card17.png</image> <!--@unused-->
+				<x_coordinate>545</x_coordinate>
+				<y_coordinate>390</y_coordinate>
+			</city>
+		</province>
+		<province>
+			<name>Schweiz</name>
+			<color>sky blue</color>
+			<city>
+				<name>Basel</name>
+				<image>card2.png</image> <!--@unused-->
+				<x_coordinate>148</x_coordinate>
+				<y_coordinate>374</y_coordinate>
+			</city>
+			<city>
+				<name>Zürich</name>
+				<image>card22.png</image> <!--@unused-->
+				<x_coordinate>210</x_coordinate>
+				<y_coordinate>399</y_coordinate>
+			</city>
+		</province>
+		<province>
+			<name>Tyrol</name>
+			<color>royal blue</color>
+			<city>
+				<name>Innsbruck</name>
+				<image>card7.png</image> <!--@unused-->
+				<x_coordinate>356</x_coordinate>
+				<y_coordinate>400</y_coordinate>
+			</city>
+		</province>
+		<province>
+			<name>Württemberg</name>
+			<color>yellow green</color>
+			<city>
+				<name>Stuttgart</name>
+				<image>card19.png</image> <!--@unused-->
+				<x_coordinate>251</x_coordinate>
+				<y_coordinate>184</y_coordinate>
+			</city>
+			<city>
+				<name>Ulm</name>
+				<image>card20.png</image> <!--@unused-->
+				<x_coordinate>275</x_coordinate>
+				<y_coordinate>266</y_coordinate>
+			</city>
+		</province>
+	</provinces>
+
+	<!-- two cities directly adjacent (45 from/to) -->
+	<!-- Remark: a city X directly adjacent to another city Y is only given from X to Y -->
+	<direct_adjacences>
+		<direct_adjacence>
+			<from>Augsburg</from>
+			<to>Ingolstadt</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Augsburg</from>
+			<to>Innsbruck</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Augsburg</from>
+			<to>Kempten</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Augsburg</from>
+			<to>München</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Augsburg</from>
+			<to>Ulm</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Basel</from>
+			<to>Freiburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Basel</from>
+			<to>Zürich</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Budweis</from>
+			<to>Linz</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Budweis</from>
+			<to>Pilsen</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Carlsruhe</from>
+			<to>Freiburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Carlsruhe</from>
+			<to>Mannheim</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Carlsruhe</from>
+			<to>Stuttgart</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Freiburg</from>
+			<to>Sigmaringen</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Freiburg</from>
+			<to>Zürich</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Ingolstadt</from>
+			<to>München</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Ingolstadt</from>
+			<to>Nürnberg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Ingolstadt</from>
+			<to>Regensburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Ingolstadt</from>
+			<to>Stuttgart</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Ingolstadt</from>
+			<to>Ulm</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Innsbruck</from>
+			<to>Kempten</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Innsbruck</from>
+			<to>München</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Innsbruck</from>
+			<to>Salzburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Kempten</from>
+			<to>Sigmaringen</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Kempten</from>
+			<to>Ulm</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Kempten</from>
+			<to>Zürich</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Linz</from>
+			<to>Passau</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Linz</from>
+			<to>Salzburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Lodz</from>
+			<to>Pilsen</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Mannheim</from>
+			<to>Stuttgart</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Mannheim</from>
+			<to>Würzburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>München</from>
+			<to>Passau</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>München</from>
+			<to>Regensburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>München</from>
+			<to>Salzburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Nürnberg</from>
+			<to>Pilsen</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Nürnberg</from>
+			<to>Regensburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Nürnberg</from>
+			<to>Stuttgart</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Nürnberg</from>
+			<to>Würzburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Passau</from>
+			<to>Regensburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Passau</from>
+			<to>Salzburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Pilsen</from>
+			<to>Regensburg</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Sigmaringen</from>
+			<to>Stuttgart</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Sigmaringen</from>
+			<to>Ulm</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Sigmaringen</from>
+			<to>Zürich</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Stuttgart</from>
+			<to>Ulm</to>
+		</direct_adjacence>
+		<direct_adjacence>
+			<from>Stuttgart</from>
+			<to>Würzburg</to>
+		</direct_adjacence>
+	</direct_adjacences>
+
+	<!-- bonus -->
+	<!-- Remark: images of bonus with no victory point are given only once. -->
+	<bonus>
+		<!-- province bonus (4+4+5+4+4 tiles) -->
+		<provinces_bonus>
+			<province_bonus>
+				<province>
+					<name>Baden</name>
+				</province>
+				<x_coordinate>261</x_coordinate> <!--@unused-->
+				<y_coordinate>85</y_coordinate> <!--@unused-->
+				<tile>
+					<image>bonusbaden3.png</image>
+					<nb_victory_points>3</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusbaden2.png</image>
+					<nb_victory_points>2</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusbaden1.png</image>
+					<nb_victory_points>1</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusbaden0.png</image>
+					<nb_victory_points>0</nb_victory_points>
+				</tile>
+			</province_bonus>
+			<province_bonus>
+				<province>
+					<name>Hohenzollern</name>
+				</province>
+				<province>
+					<name>Württemberg</name>
+				</province>
+				<x_coordinate>232</x_coordinate> <!--@unused-->
+				<y_coordinate>225</y_coordinate> <!--@unused-->
+				<tile>
+					<image>bonuswurttemberg3.png</image>
+					<nb_victory_points>3</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonuswurttemberg2.png</image>
+					<nb_victory_points>2</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonuswurttemberg1.png</image>
+					<nb_victory_points>1</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonuswurttemberg0.png</image>
+					<nb_victory_points>0</nb_victory_points>
+				</tile>
+			</province_bonus>
+			<province_bonus>
+				<province>
+					<name>Baiern</name>
+				</province>
+				<x_coordinate>440</x_coordinate> <!--@unused-->
+				<y_coordinate>238</y_coordinate> <!--@unused-->
+				<tile>
+					<image>bonusbaiern5.png</image>
+					<nb_victory_points>5</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusbaiern4.png</image>
+					<nb_victory_points>4</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusbaiern3.png</image>
+					<nb_victory_points>3</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusbaiern2.png</image>
+					<nb_victory_points>2</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusbaiern0.png</image>
+					<nb_victory_points>0</nb_victory_points>
+				</tile>
+			</province_bonus>
+			<province_bonus>
+				<province>
+					<name>Böhmen</name>
+				</province>
+				<province>
+					<name>Salzburg</name>
+				</province>
+				<x_coordinate>537</x_coordinate> <!--@unused-->
+				<y_coordinate>234</y_coordinate> <!--@unused-->
+				<tile>
+					<image>bonusbohmen4.png</image>
+					<nb_victory_points>4</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusbohmen3.png</image>
+					<nb_victory_points>3</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusbohmen2.png</image>
+					<nb_victory_points>2</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusbohmen0.png</image>
+					<nb_victory_points>0</nb_victory_points>
+				</tile>
+			</province_bonus>
+			<province_bonus>
+				<province>
+					<name>Schweiz</name>
+				</province>
+				<province>
+					<name>Tyrol</name>
+				</province>
+				<x_coordinate>241</x_coordinate> <!--@unused-->
+				<y_coordinate>394</y_coordinate> <!--@unused-->
+				<tile>
+					<image>bonusschweiz3.png</image>
+					<nb_victory_points>3</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusschweiz2.png</image>
+					<nb_victory_points>2</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusschweiz1.png</image>
+					<nb_victory_points>1</nb_victory_points>
+				</tile>
+				<tile>
+					<image>bonusschweiz0.png</image>
+					<nb_victory_points>0</nb_victory_points>
+				</tile>
+			</province_bonus>
+		</provinces_bonus>
+		<!-- all provinces bonus (5 tiles) -->
+		<all_provinces_bonus>
+			<province_name_avoid>Baiern</province_name_avoid>
+			<x_coordinate>202</x_coordinate>
+			<y_coordinate>61</y_coordinate>
+			<tile>
+				<image>bonusall6.png</image>
+				<nb_victory_points>6</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonusall5.png</image>
+				<nb_victory_points>5</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonusall4.png</image>
+				<nb_victory_points>4</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonusall3.png</image>
+				<nb_victory_points>3</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonusall0.png</image>
+				<nb_victory_points>0</nb_victory_points>
+			</tile>
+		</all_provinces_bonus>
+		<!-- long route bonus (5+4+3 tiles) -->
+		<long_route_bonus>
+		<!-- Remark: coordinate and none image are given only once for the first tile of each block of the same route length. -->
+			<tile>
+				<x_coordinate>96</x_coordinate>
+				<y_coordinate>380</y_coordinate>
+				<image>bonus74.png</image>
+				<route_length>7</route_length>
+				<nb_victory_points>4</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonus73.png</image>
+				<route_length>7</route_length>
+				<nb_victory_points>3</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonus72.png</image>
+				<route_length>7</route_length>
+				<nb_victory_points>2</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonus71.png</image>
+				<route_length>7</route_length>
+				<nb_victory_points>1</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonus70.png</image>
+				<route_length>7</route_length>
+				<nb_victory_points>0</nb_victory_points>
+			</tile>
+			<tile>
+				<x_coordinate>64</x_coordinate>
+				<y_coordinate>380</y_coordinate>
+				<image>bonus63.png</image>
+				<route_length>6</route_length>
+				<nb_victory_points>3</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonus62.png</image>
+				<route_length>6</route_length>
+				<nb_victory_points>2</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonus61.png</image>
+				<route_length>6</route_length>
+				<nb_victory_points>1</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonus60.png</image>
+				<route_length>6</route_length>
+				<nb_victory_points>0</nb_victory_points>
+			</tile>
+			<tile>
+				<x_coordinate>32</x_coordinate>
+				<y_coordinate>380</y_coordinate>
+				<image>bonus52.png</image>
+				<route_length>5</route_length>
+				<nb_victory_points>2</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonus51.png</image>
+				<route_length>5</route_length>
+				<nb_victory_points>1</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonus50.png</image>
+				<route_length>5</route_length>
+				<nb_victory_points>0</nb_victory_points>
+			</tile>
+		</long_route_bonus>
+		<!-- end game bonus (2 tiles) -->
+		<end_game_bonus>
+			<tile>
+				<x_coordinate>202</x_coordinate>
+				<y_coordinate>27</y_coordinate>
+				<image>bonusend1.png</image>
+				<nb_victory_points>1</nb_victory_points>
+			</tile>
+			<tile>
+				<image>bonusend0.png</image>
+				<nb_victory_points>0</nb_victory_points>
+			</tile>
+		</end_game_bonus>
+	</bonus>
+
+</game_elements>
