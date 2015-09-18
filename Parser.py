@@ -81,6 +81,8 @@ class ParseXMLElements:
             cr.greaterCarriage = carriage_greater
             carriage_greater = cr
         self.carriages.reverse()
+        self.carriage = self.carriages[0]
+
         
         for node in self.tree.iter('provinces'):
             for province in node.iter('province'):

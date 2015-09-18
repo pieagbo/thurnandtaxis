@@ -9,6 +9,9 @@ Created on Fri Sep 11 10:37:01 2015
 from tkinter import *
 from PIL import Image, ImageTk
 from Model import *
+from random import *
+import MessageBox 
+
 
 
 class Interface(Frame):
@@ -16,18 +19,21 @@ class Interface(Frame):
     """Notre fenêtre principale.
     Tous les widgets sont stockés comme attributs de cette fenêtre."""
     
-    def __init__(self, fenetre, name, gameBoardWidth, gameBoardHeight, gameBoardImage, backCardImage, provinceBonus, allProvincesBonus, 
-                     endGameBonus, longRouteBonus7, longRouteBonus6, longRouteBonus5, officials, closeDeck, openDeck, IAone, IAthree, IAfour, human, houses, **kwargs):
+    def __init__(self, fenetre, name, gameBoardImage, backCardImage, provinceBonus, allProvincesBonus, 
+                     endGameBonus, longRouteBonus7, longRouteBonus6, longRouteBonus5, officials, carriage, closeDeck, openDeck, IAone, IAthree, IAfour, human, houses, **kwargs):
         Frame.__init__(self, fenetre, width=0, height=0, **kwargs)
 
+
+        self.fenetre = fenetre 
+        
         self.name = name
-        self.gameBoardWidth = gameBoardWidth
-        self.gameBoardHeight = gameBoardHeight
         self.gameBoardImage = gameBoardImage
         self.backCardImage = backCardImage
 
         self.officials = officials
         
+        self.carriage = carriage
+
         self.provinceBonus = provinceBonus
         self.allProvincesBonus = allProvincesBonus
         self.endGameBonus = endGameBonus
@@ -39,12 +45,18 @@ class Interface(Frame):
         self.openDeck = openDeck
         self.binDeck = list()
         
+        self.playerRoadCount = 0 
+        
         self.IAone= IAone
         self.IAthree= IAthree
         self.IAfour= IAfour
         self.human = human
         
         self.houses = houses
+    
+        self.official = None        
+        
+        self.messageBox = None
         
         #Create a self.canvas
         self.canvas = Canvas(fenetre, width=1273, height=800)
@@ -53,7 +65,7 @@ class Interface(Frame):
         self.initializeImage()
         self.initializeText()
         
-        self.play()
+        self.play(EVENT.BEGIN_TURN)
         
     
     def initializeImage(self):
@@ -116,11 +128,14 @@ class Interface(Frame):
         player4bonus = Image.open('utils/images/playerbonus.png')
         
         #Hand
-        i = 0 
         handplayer = list()
-        while i < len(self.human.hand):
-            handplayer.append(Image.open('utils/images/' + self.human.hand[i].city.image))
-            i+=1
+        for card in self.human.hand:
+            handplayer.append(Image.open('utils/images/' + card.city.image))
+
+        #Road
+        roadplayerHuman = list()
+        for card in self.human.road:
+            roadplayerHuman.append(Image.open('utils/images/' + card.city.image))
         
         # Put the image into a self.canvas compatible class, and stick in an
         # arbitrary variable to the garbage collector doesn't destroy it
@@ -173,6 +188,11 @@ class Interface(Frame):
         self.canvas.handplayer = list()
         for card in handplayer:
             self.canvas.handplayer.append(ImageTk.PhotoImage(card))
+
+        self.canvas.roadplayerHuman = list()
+        for card in roadplayerHuman:
+            self.canvas.roadplayerHuman.append(ImageTk.PhotoImage(card))
+
         
         # Add the image to the self.canvas, and set the anchor to the top left / north west corner
         self.canvas.config(bg="light goldenrod")
@@ -184,8 +204,9 @@ class Interface(Frame):
     
         
         self.canvas.create_image(0, 0, image=self.canvas.board, anchor='nw')
-        self.canvas.create_image(1140, 440, image=self.canvas.Deck, anchor='nw', tag="CloseDeck")
-        self.canvas.tag_bind("CloseDeck", "<Button-1>", self.ClickCloseDeck)
+        self.closeDeckButton = Button(self.canvas, text=len(self.closeDeck), image=self.canvas.Deck, command=self.ClickCloseDeck, compound="center", font="Helvetica 20", fg="white")
+        self.closeDeckButton.place(x = 1140, y = 440, anchor='nw')
+        
         
         #Bonus Provinces
         self.bonusSchweiz = self.canvas.create_image(155, 428, image=self.canvas.bonusschweiz, anchor='nw')
@@ -204,35 +225,49 @@ class Interface(Frame):
         self.bonus7 = self.canvas.create_image(980, 540, image=self.canvas.bonus7, anchor='nw')
         
         #Open cards
-        self.card01 = self.canvas.create_image(735, 440, image=self.canvas.card01, anchor='nw', tag="OpenDeck1")
-        self.card02 = self.canvas.create_image(857, 440, image=self.canvas.card02, anchor='nw', tag="OpenDeck2")
-        self.card03 = self.canvas.create_image(978, 440, image=self.canvas.card03, anchor='nw', tag="OpenDeck3")
-        self.card04 = self.canvas.create_image(735, 480, image=self.canvas.card04, anchor='nw', tag="OpenDeck4")
-        self.card05 = self.canvas.create_image(857, 480, image=self.canvas.card05, anchor='nw', tag="OpenDeck5")
-        self.card06 = self.canvas.create_image(975, 480, image=self.canvas.card06, anchor='nw', tag="OpenDeck6")
-        self.canvas.tag_bind("OpenDeck1", "<Button-1>", lambda event,arg=0: self.ClickOpenDeck(event, arg))
-        self.canvas.tag_bind("OpenDeck2", "<Button-1>", lambda event,arg=1: self.ClickOpenDeck(event, arg))
-        self.canvas.tag_bind("OpenDeck3", "<Button-1>", lambda event,arg=2: self.ClickOpenDeck(event, arg))
-        self.canvas.tag_bind("OpenDeck4", "<Button-1>", lambda event,arg=3: self.ClickOpenDeck(event, arg))
-        self.canvas.tag_bind("OpenDeck5", "<Button-1>", lambda event,arg=4: self.ClickOpenDeck(event, arg))
-        self.canvas.tag_bind("OpenDeck6", "<Button-1>", lambda event,arg=5: self.ClickOpenDeck(event, arg))
+        self.card01 = Button(self.canvas, image=self.canvas.card01, command=lambda arg=0: self.ClickOpenDeck(arg))
+        self.card01.place(x = 735, y = 440, anchor='nw')
+        
+        self.card02 = Button(self.canvas, image=self.canvas.card02, command=lambda arg=1: self.ClickOpenDeck(arg))
+        self.card02.place(x = 857, y = 440, anchor='nw')
+        
+        self.card03 = Button(self.canvas, image=self.canvas.card03, command=lambda arg=2: self.ClickOpenDeck(arg))
+        self.card03.place(x = 978, y = 440, anchor='nw')
+        
+        self.card04 = Button(self.canvas, image=self.canvas.card04, command=lambda arg=3: self.ClickOpenDeck(arg))
+        self.card04.place(x = 735, y = 485, anchor='nw')
+        
+        self.card05 = Button(self.canvas, image=self.canvas.card05, command=lambda arg=4: self.ClickOpenDeck(arg))
+        self.card05.place(x = 857, y = 485, anchor='nw')
+        
+        self.card06 = Button(self.canvas, image=self.canvas.card06, command=lambda arg=5: self.ClickOpenDeck(arg))
+        self.card06.place(x = 978, y = 485, anchor='nw')
+        
+        self.closeRoad = Button(self.canvas, text="Discard road", command=lambda arg=self.human: self.discardRoad(arg))
+        self.closeRoad.place(x = 1140, y = 540, anchor='nw')
+        self.closeRoad.config(state=DISABLED)
+
+        self.endTurn = Button(self.canvas, text="Finish turn ! ", command=self.playFinish)
+        self.endTurn.place(x = 1140, y = 570, anchor='nw')
+        self.endTurn.config(state=DISABLED)
         
         #Official
-#        self.canvas.create_image(640, 440, image=self.canvas.postillion, anchor='nw')
-        self.canvas.create_image(635, 440, image=self.canvas.postillionTile , anchor='nw', tag="postillionTile")
-        self.canvas.tag_bind("postillionTile", "<Button-1>", self.ClickPostillionTile)
+        self.postillionTile = Button(self.canvas, image=self.canvas.postillionTile, command=self.ClickPostillionTile)
+        self.postillionTile.place(x = 635, y = 440, anchor='nw')
+        self.postillionTile.config(state=DISABLED)
         
-#        self.canvas.create_image(690, 440, image=self.canvas.amtmann, anchor='nw')
-        self.canvas.create_image(635, 485, image=self.canvas.amtmannTile, anchor='nw', tag="amtmannTile")
-        self.canvas.tag_bind("amtmannTile", "<Button-1>", self.ClickAmtmannTile)
+        self.amtmannTile = Button(self.canvas, image=self.canvas.amtmannTile, command=self.ClickAmtmannTile)
+        self.amtmannTile.place(x = 635, y = 485, anchor='nw')
+        self.amtmannTile.config(state=DISABLED)
         
-#        self.canvas.create_image(640, 900, image=self.canvas.postmeister, anchor='nw')
-        self.canvas.create_image(680, 440, image=self.canvas.postmeisterTile, anchor='nw', tag="postmeisterTile")
-        self.canvas.tag_bind("postmeisterTile", "<Button-1>", self.ClickPostmeisterTile)
+        self.postmeisterTile = Button(self.canvas, image=self.canvas.postmeisterTile, command=self.ClickPostmeisterTile)
+        self.postmeisterTile.place(x = 680, y = 440, anchor='nw')
+        self.postmeisterTile.config(state=DISABLED)
         
-#        self.canvas.create_image(690, 900, image=self.canvas.wagner, anchor='nw')
-        self.canvas.create_image(680, 485, image=self.canvas.wagnerTile, anchor='nw', tag="wagnerTile")
-        self.canvas.tag_bind("wagnerTile", "<Button-1>", self.ClickWagnerTile)
+        self.wagnerTile = Button(self.canvas, image=self.canvas.wagnerTile, command=self.ClickWagnerTile)
+        self.wagnerTile.place(x = 680, y = 485, anchor='nw')
+        self.wagnerTile.config(state=DISABLED)
+
         
         self.canvas.create_image(640, 40, image=self.canvas.hand, anchor='nw')
         self.canvas.create_image(640, 85, image=self.canvas.house, anchor='nw')
@@ -257,13 +292,13 @@ class Interface(Frame):
         self.canvas.create_image(960, 340, image=self.canvas.wheel, anchor='nw')
         self.player4bonus = self.canvas.create_image(960, 385, image=self.canvas.player4bonus, anchor='nw')
         
+        self.handPlayer = list()
 
-        for card in self.canvas.handplayer:
-            self.canvas.create_image(0,755, image=card, anchor="nw")
+        self.roadPlayerHuman = list()
 
     
     def initializeText(self):
-        self.nbCardsCloseDeck = self.canvas.create_text(1160, 500, text=len(self.closeDeck), fill="white", anchor='nw', font="Helvetica 16")
+#        self.nbCardsCloseDeck = self.closeDeck.create_text(1160, 500, text=len(self.closeDeck), fill="white", anchor='nw', font="Helvetica 16")
         
         self.canvas.create_text(700, 15, text=self.IAone.name, anchor='nw', font="Helvetica 16")
         self.IAoneHand = self.canvas.create_text(652, 55, text=len(self.IAone.hand), anchor='nw', font="Helvetica 14", fill="white")
@@ -330,7 +365,6 @@ class Interface(Frame):
         Card06plan = Image.open('utils/images/' + self.openDeck[5].city.image)
         
         if not self.IAone.bonuses.count:
-            print(self.IAone.bonuses)
             player1bonus = Image.open('utils/images/' + self.IAone.bonuses[-1].image)
         else:
             player1bonus = Image.open('utils/images/playerbonus.png')
@@ -350,13 +384,18 @@ class Interface(Frame):
         else:
             player4bonus = Image.open('utils/images/playerbonus.png')
             
-        i = 0 
-        handplayer = list()
-        while i < len(self.human.hand):
-            handplayer.append(Image.open('utils/images/' + self.human.hand[i].city.image))
-            i+=1
 
-        
+        #Hand
+        handplayer = list()
+        for card in self.human.hand: 
+            handplayer.append(Image.open('utils/images/' + card.city.image))
+            
+        #Roads
+        roadplayerHuman = list()
+        for card in self.human.road:
+            roadplayerHuman.append(Image.open('utils/images/' + card.city.image))
+
+            
         #Bonus Provinces
         self.canvas.bonusschweiz = ImageTk.PhotoImage(bonusschweizplan)
         self.canvas.bonuswurttemberg = ImageTk.PhotoImage(bonuswurttembergplan)
@@ -390,6 +429,10 @@ class Interface(Frame):
         for card in handplayer:
             self.canvas.handplayer.append(ImageTk.PhotoImage(card))
         
+        self.canvas.roadPlayerHuman = list()
+        for card in roadplayerHuman:
+            self.canvas.roadPlayerHuman.append(ImageTk.PhotoImage(card))
+        
         #Bonus Provinces
         self.canvas.itemconfig(self.bonusSchweiz, image=self.canvas.bonusschweiz)
         self.canvas.itemconfig(self.bonusWurttemberg, image=self.canvas.bonuswurttemberg)
@@ -405,14 +448,14 @@ class Interface(Frame):
         self.canvas.itemconfig(self.bonus7, image=self.canvas.bonus7) 
         
         #Open cards
-        self.canvas.itemconfig(self.card01, image=self.canvas.card01)
-        self.canvas.itemconfig(self.card02, image=self.canvas.card02)
-        self.canvas.itemconfig(self.card03, image=self.canvas.card03)
-        self.canvas.itemconfig(self.card04, image=self.canvas.card04)
-        self.canvas.itemconfig(self.card05, image=self.canvas.card05)
-        self.canvas.itemconfig(self.card06, image=self.canvas.card06) 
-        
-        self.canvas.itemconfig(self.nbCardsCloseDeck, text=len(self.closeDeck)) 
+        self.card01.config(image=self.canvas.card01)
+        self.card02.config(image=self.canvas.card02)
+        self.card03.config(image=self.canvas.card03)
+        self.card04.config(image=self.canvas.card04)
+        self.card05.config(image=self.canvas.card05)
+        self.card06.config(image=self.canvas.card06)
+
+        self.closeDeckButton.config(text =len(self.closeDeck))
         
         self.canvas.itemconfig(self.IAoneHand, text=len(self.IAone.hand))
         self.canvas.itemconfig(self.IAoneHouses, text=len(self.IAone.houses))
@@ -422,29 +465,77 @@ class Interface(Frame):
         self.canvas.itemconfig(self.IAthreeHand, text=len(self.IAthree.hand))
         self.canvas.itemconfig(self.IAthreeHouses, text=len(self.IAthree.houses))
         if self.IAthree.carriage != None : 
-            self.canvas.itemconfig(self.IAthreeCarriages, text=self.IAthree.carriage.routeLength) 
+            self.canvas.itemconfig(self.IAthreeCarriages, text=self.IAthree.carriage.routeLength)      
         
         self.canvas.itemconfig(self.humanHand, text=len(self.human.hand))
         self.canvas.itemconfig(self.humanHouses, text=len(self.human.houses))
         if self.human.carriage != None : 
             self.canvas.itemconfig(self.humanCarriages, text=self.human.carriage.routeLength) 
         
+        
         self.canvas.itemconfig(self.IAfourHand, text=len(self.IAfour.hand))
         self.canvas.itemconfig(self.IAfourHouses, text=len(self.IAfour.houses))
         if self.IAfour.carriage != None : 
             self.canvas.itemconfig(self.IAfourCarriages, text=self.IAfour.carriage.routeLength)
-
 
         self.canvas.itemconfig(self.player1bonus, image=self.canvas.player1bonus, anchor='nw')
         self.canvas.itemconfig(self.player2bonus, image=self.canvas.player2bonus, anchor='nw')
         self.canvas.itemconfig(self.player3bonus, image=self.canvas.player3bonus, anchor='nw')
         self.canvas.itemconfig(self.player4bonus, image=self.canvas.player4bonus, anchor='nw')
         
-        for card in self.canvas.handplayer:
-            self.canvas.create_image(0,755, image=card, anchor="nw")
+        self.x = 0
+        self.y = 750 
+        i = 0
+        self.handPlayer.clear()
+        for img in self.canvas.handplayer:
+            button = Button(self.canvas, image=img, command=lambda arg=i: self.putACard(self.human, arg))
+            button.place(x = self.x, y = self.y,anchor="nw")
+            button.config(state=DISABLED)
+            self.handPlayer.append(button)
+            self.x += 125
+            i+=1
+            
+        self.x = 0 
+        self.y = 650
+        for card in self.canvas.roadPlayerHuman:
+            button = Button(self.canvas, image=card)
+            button.place(x = self.x, y = self.y,anchor="nw")
+            self.roadPlayerHuman.append(button)
+            self.x += 125   
 
-    def play(self):
-        pass
+
+    def play(self, event):
+        self.event = event
+        if self.event == EVENT.BEGIN_TURN:
+            if len(self.human.hand) == 0 :
+                self.play(EVENT.NO_CARDS_IN_HAND)
+
+            if self.human
+
+            self.card01.config(state=NORMAL)
+            self.card02.config(state=NORMAL)
+            self.card03.config(state=NORMAL)
+            self.card04.config(state=NORMAL)
+            self.card05.config(state=NORMAL)
+            self.card06.config(state=NORMAL)
+            self.closeDeckButton.config(state=NORMAL)
+        elif self.event == EVENT.NO_CARDS_IN_HAND:
+            self.card01.config(state=NORMAL)
+            self.card02.config(state=NORMAL)
+            self.card03.config(state=NORMAL)
+            self.card04.config(state=NORMAL)
+            self.card05.config(state=NORMAL)
+            self.card06.config(state=NORMAL)
+            self.closeDeckButton.config(state=NORMAL)
+        elif self.event == EVENT.TURN:
+            self.card01.config(state=NORMAL)
+            self.card02.config(state=NORMAL)
+            self.card03.config(state=NORMAL)
+            self.card04.config(state=NORMAL)
+            self.card05.config(state=NORMAL)
+            self.card06.config(state=NORMAL)
+            self.closeDeckButton.config(state=NORMAL)
+            
     
     def takeACard(self, player, inOpen):
         if inOpen != -1:
@@ -464,64 +555,170 @@ class Interface(Frame):
         else:
             if len(self.closeDeck) == 0 :
                 shuffle(self.binDeck)
-                i = 0
-                while i < len(self.binDeck):
-                    card = self.binDeck.pop
-                    self.closeDeck.add(card)
-                
+                i = len(self.binDeck) - 1
+                j = 0 
+                while i >= j:
+                    card = self.binDeck.pop(i)
+                    self.closeDeck.append(card)
+                    i-=1 
                 card = self.closeDeck.pop()
                 player.hand.append(card)
             else:
                 card = self.closeDeck.pop()
                 player.hand.append(card)
+
+        self.card01.config(state=DISABLED)
+        self.card02.config(state=DISABLED)
+        self.card03.config(state=DISABLED)
+        self.card04.config(state=DISABLED)
+        self.card05.config(state=DISABLED)
+        self.card06.config(state=DISABLED)
+        self.closeDeckButton.config(state=DISABLED) 
+        self.endTurn.config(state=DISABLED)
+
+        if self.event == EVENT.NO_CARDS_IN_HAND:
+            self.postmeisterTile.config(state=NORMAL)
+            self.event = EVENT.TURN
+        elif self.event == EVENT.TURN:
+            self.event = EVENT.END_TURN
+
+        self.update()
+
+        for button in self.handPlayer:
+            button.config(state=NORMAL)
                 
                 
-    def discardRoad(self, player):
-        i = 0 
-        while i < len(player.road):
-            card = player.road.plop()        
-            self.binDeck.add(card)
-            i+=1
-            
-    def putACard(self, player, card):
-        if len(player.road) == 0:
-            road.append(card)
-        elif self.canPut(player, hand) == 1:
-            self.runSettingsBoard()
-            if self.messageBoxself.wantQuit != 0 :
-                if self.messageBoxself.choix == "Left":
-                    player.road.insert(0,card)
-                elif self.messageBoxself.choix == "Rigth":
-                    player.road.append(card)
+    def discardRoad(self, player):    
+        if(len(player.road)) >= 7 and player.carriage != None and player.carriage.routeLength == 6:
+            player.carriage = player.carriage.greaterCarriage
+            i = len(player.road) - 1 
+            j = 0
+            while i >= j :
+                card = player.road.pop(i)
+                self.binDeck.append(card)    
+                i-=1
+        elif(len(player.road)) >= 6 and player.carriage != None and player.carriage.routeLength == 5:
+            player.carriage = player.carriage.greaterCarriage
+            i= len(player.road) - 1 
+            j = 0
+            while i >= j :
+                card = player.road.pop(i)
+                self.binDeck.append(card)    
+                i-=1
+        elif(len(player.road)) >= 5 and player.carriage != None and player.carriage.routeLength == 4:
+            player.carriage = player.carriage.greaterCarriage
+            i= len(player.road) - 1
+            j = 0
+            while i >= j :
+                card = player.road.pop(i)
+                self.binDeck.append(card) 
+                i-=1
+        elif(len(player.road)) >= 4 and player.carriage != None and player.carriage.routeLength == 3:
+            player.carriage = player.carriage.greaterCarriage
+            i= len(player.road) - 1
+            j = 0
+            while i >= j :
+                card = player.road.pop(i)
+                self.binDeck.append(card)    
+                i-=1
+        elif(len(player.road)) >= 3 and player.carriage == None:            
+            player.carriage = self.carriage
+            i= len(player.road) - 1
+            j = 0
+            while i >= j :
+                card = player.road.pop(i)
+                self.binDeck.append(card)
+                i-=1
         else:
-            print('pas cool')
+            i= len(player.road) - 1
+            j = 0
+            while i >= j :
+                card = player.road.pop(i)
+                self.binDeck.append(card)    
+                i-=1
+        
+        i= len(player.hand) - 1
+        j = 3
+        while i >= j :
+            card = player.hand.pop(i)
+            self.binDeck.append(card)
+            i-=1
+                
+        self.update()
+
+            
+    def putACard(self, player, index):
+        if len(player.road) == 0:
+            player.road.append(player.hand.pop(index))
+        elif self.canPut(player, player.hand[index]) != 0:
+            self.runMessageBox(self.canPut(player, player.hand[index]))
+            if self.messageBox.wantQuit != 0 :
+                if self.messageBox.choix == "Left":
+                    player.road.insert(0, player.hand.pop(index))
+                elif self.messageBox.choix == "Rigth":
+                    player.road.append(player.hand.pop(index))
+        else:
+            pass
+
+        self.update()
+
+        if self.event == EVENT.END_TURN:
+            self.endTurn.config(state=NORMAL)
     
     def canPut(self, player, card):
-        if card.city.directlyAdjacentCities.count(player.road[0]) > 0 : 
-            return 1
-        elif card.city.directlyAdjacentCities.count(player.road[len(player.road) - 1]) > 0 : 
-            return 1
-        else:
-            return 0
+        for city in player.road:
+            if city.name == card.name:
+                return 0 
+                
+        for city in card.city.directlyAdjacentCities :
+            if player.road[0].name == city.name:
+                if player.road[-1].name == city.name:
+                    return 3
+                else:
+                    return 2    
+            elif player.road[-1].name == city.name: 
+                if player.road[0].name == city.name: 
+                    return 3
+                else:
+                    return 1
+        return 0 
     
-    def ClickCloseDeck(self, event):
+    def ClickCloseDeck(self):
         self.takeACard(self.human, -1)
-        self.update()
          
-    def ClickOpenDeck(self, event, nbCard):
+    def ClickOpenDeck(self, nbCard):
         self.takeACard(self.human, nbCard)
-        self.update()
 
-
-
-    def ClickPostillionTile(self, event):
+    def ClickPostillionTile(self):
         print("Official Postillon")
         
-    def ClickAmtmannTile(self, event ):
+    def ClickAmtmannTile(self ):
         print("Official Amtman")
         
-    def ClickPostmeisterTile(self, event):
-        print("Official Postmeister")
+    def ClickPostmeisterTile(self):
+        self.card01.config(state=NORMAL)
+        self.card02.config(state=NORMAL)
+        self.card03.config(state=NORMAL)
+        self.card04.config(state=NORMAL)
+        self.card05.config(state=NORMAL)
+        self.card06.config(state=NORMAL)
+        self.postmeisterTile.config(state=DISABLED)
+        self.closeDeckButton.config(state=NORMAL)
         
-    def ClickWagnerTile(self, event):
+    def ClickWagnerTile(self):
         print("Official Wagner")
+        
+    def runMessageBox(self, canPut):
+        self.messageBox = MessageBox.Interface(self.fenetre)
+        if canPut == 2 :
+            self.messageBox.rigthButton.config(state=DISABLED)
+        elif canPut == 1 : 
+            self.messageBox.leftButton.config(state=DISABLED)
+        else:
+            self.messageBox.rigthButton.config(state=NORMAL)
+            self.messageBox.leftButton.config(state=NORMAL)
+        
+        self.fenetre.wait_window(self.messageBox.top)
+
+    def playFinish(self):
+        self.play(EVENT.BEGIN_TURN)

@@ -12,14 +12,30 @@ class CardinalPoint(Enum):
     WEST = 2
     NORTH = 3
     EAST = 4
-
+    
 
 class Color(Enum):
     RED = "red"
     GREEN = "green"
     BLUE = "blue"
     YELLOW = "yellow"
-    
+
+
+class EVENT(Enum):
+    BEGIN_TURN = 0 
+    ADMINISTRATOR = 1
+    SUPPLY_OR_DISPLAY = 2
+    POSTMASTER = 3 
+    DISCARD_ROUTE = 4
+    HAND = 5 
+    POSTAL_CARRIER = 6
+    END_TURN = 7 
+    CLOSE_ROUTE = 8
+    CARTWRIGHT = 9
+    ROUTE = 10
+    PLACE_HOUSE = 11   
+    NO_CARDS_IN_HAND = 12
+    TURN = 13
     
 class Player:
     def __init__(self, name, color, order): 

@@ -7,9 +7,8 @@ Created on Wed Sep 16 08:27:52 2015
 
 from Parser import *
 from tkinter import *
-import GameBoard
-import MessageBox
-import SettingsBoard
+import GameBoard 
+import SettingsBoard 
 from random import *
 from tkinter.messagebox import *
 
@@ -17,11 +16,9 @@ from tkinter.messagebox import *
 class ThurnAndTaxis: 
     def __init__(self):
         self.name = None
-        self.gameBoardWidth = 1900
-        self.gameBoardHeight = 1000
         self.gameBoardImage = "utils/images/"
         self.backCardImage = "utils/images/"
-        self.nbMinCityCardsCloseRoute = None        
+        self.nbMinCityCardsCloseRoute = None
         self.nbMaxCityCardsRouteClosed = None    
         self.nbCityCardsCartwrightAdvantage = None    
         self.initialNbHouses = None
@@ -29,7 +26,7 @@ class ThurnAndTaxis:
         self.officials = None
         self.provinces = None
         self.cities = None
-        self.carriages = None
+        self.carriage = None
         
         self.provinceBonus = None
         self.allProvincesBonus = None
@@ -52,25 +49,21 @@ class ThurnAndTaxis:
         self.settings = None
  
         self.board = None
-        
-        self.messageBox = None
-        
+
         self.runSettingsBoard()
         if self.settings.wantQuit != 1 :        
             self.parser = ParseXMLElements()
             
             self.initGame(self.parser.gameName, self.parser.game_board_image, self.parser.back_card_image,
                           self.parser.nb_min_city_cards_close_route, self.parser.nb_max_city_cards_route_closed,self.parser.nb_city_cards_Cartwright_advantage,
-                          self.parser.initial_nb_houses, self.parser.officials, self.parser.provinces,self.parser.cities,self.parser.carriages,self.parser.provinceBonus,
+                          self.parser.initial_nb_houses, self.parser.officials, self.parser.provinces,self.parser.cities,self.parser.carriage,self.parser.provinceBonus,
                           self.parser.allProvincesBonus,self.parser.endGameBonus, self.parser.longRouteBonus7, self.parser.longRouteBonus6, self.parser.longRouteBonus5,
                           self.parser.cards,self.parser.houses, self.settings.human, self.settings.IAone,self.settings.IAthree, self.settings.IAfour)
     
     def initGame(self, name, gameBoardImage, backCardImage, nbMinCityCardsCloseRoute, nbMaxCityCardsRouteClosed, 
-                       nbCityCardsCartwrightAdvantage, initialNbHouses, officials, provinces, cities, carriages, 
+                       nbCityCardsCartwrightAdvantage, initialNbHouses, officials, provinces, cities, carriage, 
                        provinceBonus, allProvincesBonus, endGameBonus, longRouteBonus7, longRouteBonus6, longRouteBonus5, cards, houses, human, IAone, IAthree, IAfour):
         self.name = name
-        self.gameBoardWidth = 1900
-        self.gameBoardHeight = 1000
         self.gameBoardImage += gameBoardImage
         self.backCardImage += backCardImage
         self.nbMinCityCardsCloseRoute = nbMinCityCardsCloseRoute        
@@ -81,7 +74,7 @@ class ThurnAndTaxis:
         self.officials = officials
         self.provinces = provinces
         self.cities = cities
-        self.carriages = carriages
+        self.carriage = carriage
         
         self.provinceBonus = provinceBonus
         self.allProvincesBonus = allProvincesBonus
@@ -111,8 +104,8 @@ class ThurnAndTaxis:
         
         self.houses = houses
         
-        self.runGameBoard(self.name, self.gameBoardWidth, self.gameBoardHeight, self.gameBoardImage,self.backCardImage,self.provinceBonus, 
-                          self.allProvincesBonus, self.endGameBonus, self.longRouteBonus7, self.longRouteBonus6, self.longRouteBonus5,self.officials, self.closeDeck, self.openDeck,
+        self.runGameBoard(self.name, self.gameBoardImage,self.backCardImage,self.provinceBonus, 
+                          self.allProvincesBonus, self.endGameBonus, self.longRouteBonus7, self.longRouteBonus6, self.longRouteBonus5,self.officials, self.carriage, self.closeDeck, self.openDeck,
                           self.IAone, self.IAthree, self.IAfour, self.human, self.houses)       
         
         
@@ -123,19 +116,12 @@ class ThurnAndTaxis:
         self.settings.mainloop()
 
     
-    def runGameBoard(self, name, gameBoardWidth, gameBoardHeight, gameBoardImage, backCardImage, provinceBonus, allProvincesBonus, 
-                     endGameBonus, longRouteBonus7, longRouteBonus6, longRouteBonus5, officials, closeDeck, openDeck, IAone, IAthree, IAfour, human, houses):
+    def runGameBoard(self, name, gameBoardImage, backCardImage, provinceBonus, allProvincesBonus, 
+                     endGameBonus, longRouteBonus7, longRouteBonus6, longRouteBonus5, officials, carriage, closeDeck, openDeck, IAone, IAthree, IAfour, human, houses):
         fenetre = Tk()
-        self.board = GameBoard.Interface(fenetre, name, gameBoardWidth, gameBoardHeight, gameBoardImage, backCardImage, provinceBonus,
-                                         allProvincesBonus, endGameBonus, longRouteBonus7, longRouteBonus6, longRouteBonus5, officials, closeDeck, openDeck, IAone, IAthree, IAfour, human, houses)
+        self.board = GameBoard.Interface(fenetre, name, gameBoardImage, backCardImage, provinceBonus,
+                                         allProvincesBonus, endGameBonus, longRouteBonus7, longRouteBonus6, longRouteBonus5, officials, carriage, closeDeck, openDeck, IAone, IAthree, IAfour, human, houses)
         self.board.mainloop()
-    
-    def runMessageBox(self):
-        fenetre = Tk()
-        fenetre.geometry('200x150+200+200')
-        self.messageBox = MessageBox.Interface(fenetre)
-        self.messageBox.mainloop()
-        
     
 if __name__ == '__main__':
     ThurnAndTaxis()
